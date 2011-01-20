@@ -18,8 +18,8 @@ class BlogPost < ActiveRecord::Base
 
   default_scope :order => 'published_at DESC'
 	
-	scope :published, { :conditions => {:published => true }}
-	scope :drafts, { :conditions => {:published => false }}
+	scope :published, { :conditions => {:published => 1 }}
+	scope :drafts, { :conditions => {:published => 0 }}
 	
 	before_save :check_published, :if => :not_resaving?
 	before_save :save_tags, :if => :not_resaving?
