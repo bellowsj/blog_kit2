@@ -11,13 +11,13 @@ class BlogPostsController < ApplicationController
 
 	
   def index
-    @blog_posts = BlogPost.published.paginate(:page => params[:page], :per_page => 5, :order => 'published_at DESC')
+    @blog_posts = BlogPost.published.paginate(:page => params[:page], :per_page => 5)
     @index_title = BlogKit.instance.settings['blog_name'] || 'Blog'
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @blog_posts }
-			format.atom
+      format.atom
     end
   end
 
@@ -26,7 +26,7 @@ class BlogPostsController < ApplicationController
 		@blog_tags = BlogTag.find_all_by_tag(params[:id])
 		
 		if @blog_tags.size > 0
-	    @blog_posts = BlogPost.published.paginate(:page => params[:page], :conditions => ['id IN (?)', @blog_tags.map(&:blog_post_id)], :per_page => 5, :order => 'published_at DESC')
+	    @blog_posts = BlogPost.published.paginate(:page => params[:page], :conditions => ['id IN (?)', @blog_tags.map(&:blog_post_id)], :per_page => 5)
 		else
 			@blog_posts = []
 		end
@@ -104,7 +104,7 @@ class BlogPostsController < ApplicationController
 
   def destroy
     @blog_post = BlogPost.find(params[:id])
-    @blog_post.destroy
+    #@blog_post.destroy
 
 		flash[:notice] = 'The blog post has been deleted'
 

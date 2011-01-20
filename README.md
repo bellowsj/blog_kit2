@@ -27,12 +27,12 @@ Coming Soon:
 
 + Follow comments (via e-mail)
 
-Install
-=======
+Install for Rails3
+==================
 
 in rails:
 
-    ./script/plugin install git://github.com/ryanstout/blog_kit.git
+    rails plugin install git://github.com/bottiger/blog_kit.git -r rails3
 
 The plugin will then copy in migrations for the BlogPost and BlogComment models.  Install the tables with:
 
@@ -76,10 +76,19 @@ User model should respond to:
 Once you have everything setup, you can see and manage the blog at /blog_posts  Make sure that you have
 all of the requirements below met.
 
+Rails 3 is supported via the rails3 branch, if you are using legacy routing, you may need to copy in routes
+from config/routes.rb to your main routes.rb file.
+
+To be able to use the delete links on posts, you will need to add the following to the top of your layout:
+
+    <%= csrf_meta_tag %>
+
+Also be sure that you have the proper javascript handling code for link_to '', :method => destroy
+
 Requirements
 ============
 
-Rails 2.3.x (Rails 3 support coming soon)
+Rails 3.x
 
 - Will_Paginate
 
@@ -90,20 +99,16 @@ Optional:
     Install Oniguruma if 1.8.x
     http://www.geocities.jp/kosako3/oniguruma/
     
-    config.gem 'ultraviolet'
+    source 'http://gems.github.com'
+    gem "spox-ultraviolet", :require => false
     
 - BlueCloth 2 (for markdown)
 
-    config.gem 'bluecloth'
+    gem 'bluecloth'
 
 - Paperclip
 
-    config.gem 'paperclip', :source => 'http://github.com/thoughtbot/paperclip.git'
-
-Rails 3
-=======
-
-Rails 3 is supported, see rails3 branch
+    gem 'paperclip', :git => 'http://github.com/thoughtbot/paperclip.git', :branch => 'rails3'
 
 Customization
 =============
@@ -116,6 +121,26 @@ BlogKit is built as a rails engine plugin (for rails 2.3.x, not the previous eng
 the models, views, and controllers in vendor/plugins/blog_kit/app/  You can change them by copying any of 
 them into your apps /app directory.  Rails will look in /app before looking in vendor/plugins/blog_kit/app/
 Once they are copied into /app, you can customize the appearance/behavior of the blog pages.
+
+Troubleshooting
+===============
+
+Q. Creating a blog post does not work, it instead renders the index page.
+A. Make sure you aren't using the old style default routes in rails (match '/:controller(/:action(/:id))')
+   If you are using default routes, then simply copy the following into your routes.rb file before the default route
+
+  	resources :blog_posts do
+		resources :blog_comments
+		resources :blog_images
+		
+		collection do
+			get :drafts
+		end
+		
+		member do
+			get :tag
+		end
+	end
 
 Tag List
 ========
