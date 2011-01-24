@@ -5,8 +5,8 @@ class BlogPostsController < ApplicationController
 	
 	layout :choose_layout
 	
-	before_filter :require_user, :except => [:index, :show, :tag]
-	before_filter :require_admin, :except => [:index, :show, :tag]
+	before_filter :require_user, :except => [:index, :show]
+	before_filter :require_admin, :except => [:index, :show]
 	before_filter :setup_image_template, :only => [:new, :edit, :create, :update]
 
 	
@@ -21,23 +21,6 @@ class BlogPostsController < ApplicationController
     end
   end
 
-	def tag
-		@tag = params[:id]
-		@blog_tags = BlogTag.find_all_by_tag(params[:id])
-		
-		if @blog_tags.size > 0
-	    @blog_posts = BlogPost.published.paginate(:page => params[:page], :conditions => ['id IN (?)', @blog_tags.map(&:blog_post_id)], :per_page => 5)
-		else
-			@blog_posts = []
-		end
-
-    @index_title = 'Tag: ' + @tag
-    respond_to do |format|
-      format.html { render :action => 'index' }
-      format.xml  { render :xml => @blog_posts }
-    end		
-	end
-
   def drafts
     @blog_posts = BlogPost.drafts.paginate(:page => params[:page], :order => 'updated_at DESC')
 
@@ -49,8 +32,8 @@ class BlogPostsController < ApplicationController
 
   def show
     @blog_post = BlogPost.find(params[:id])
-		@blog_comment = @blog_post.blog_comments.new
-		@blog_comments = @blog_post.blog_comments.paginate(:page => params[:page], :order => 'created_at DESC')
+    @blog_comment = @blog_post.blog_comments.new
+    @blog_comments = @blog_post.blog_comments.paginate(:page => params[:page], :order => 'created_at DESC')
 
     respond_to do |format|
       format.html # show.html.erb

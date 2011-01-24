@@ -6,7 +6,7 @@
 #auto_discovery_link_tag :atom, blog_posts_path(:format => :atom) 
 %>
 
-<%= render :partial => 'admin_links' %>
+<%= render :partial => 'blog_posts/admin_links' %>
 
 <% if @blog_posts.size == 0 && !params[:page] %>
 	<div class="blogPost">
@@ -17,11 +17,12 @@
 	<% if @tag %>
 		<h1>Tag: <%= @tag %></h1>
 	<% end %>
-	<%= render :collection => @blog_posts, :partial => 'blog_post' %>
+	<%= render :collection => @blog_posts, :partial => 'blog_posts/blog_post' %>
 <% end %>
 
 <div class="blogPages">
-	<%= will_paginate @blog_posts %>
+	<%= #will_paginate @blog_posts 
+%>
 </div>
 
-<%= render :partial => 'admin_links' %>
+<%= render :partial => 'blog_posts/admin_links' %>

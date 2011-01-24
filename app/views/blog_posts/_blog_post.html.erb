@@ -24,12 +24,12 @@
 	</div>
 
 	<hr class="blogPostBreak" />
-	<% unless blog_post.tags.blank? %>
-		<p class="blogPostTags">
-			<b>Tags: </b>
-			<%= blog_post.tags_with_links %>
-		</p>
+        <p class="blogPostTags">
+          <b>Tags: </b>
+	<% blog_post.tag_list.each do |tag| %>
+		<%= link_to tag, tag_url(tag) %> 
 	<% end %>
+	</p>
 	
 	<p class="blogFooter">
 		<ul class="blogList">

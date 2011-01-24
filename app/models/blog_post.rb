@@ -7,7 +7,6 @@ class BlogPost < ActiveRecord::Base
 	belongs_to :user
 	
 	has_many :blog_comments, :dependent => :destroy
-	has_many :blog_tags, :dependent => :destroy
 	has_many :blog_images, :dependent => :destroy
 	
 	accepts_nested_attributes_for :blog_images, :allow_destroy => true
@@ -16,41 +15,16 @@ class BlogPost < ActiveRecord::Base
 	validates_presence_of :title
 	validates_presence_of :body
 
-  default_scope :order => 'published_at DESC'
+  	default_scope :order => 'published_at DESC'
 	
 	scope :published, { :conditions => {:published => 1 }}
 	scope :drafts, { :conditions => {:published => 0 }}
 	
 	before_save :check_published, :if => :not_resaving?
-	before_save :save_tags, :if => :not_resaving?
 	after_save :replace_blog_image_tags, :if => :not_resaving?
 
+	acts_as_taggable
 
-	def tags
-		@tags ||= self.blog_tags.map(&:tag).join(', ')
-	end
-	
-	def tags=(tags)
-		@tags = tags
-	end
-
-	def tags_with_links
-		html = self.tags.split(/,/).collect {|t| "<a href=\"/wrote/tag/#{t.strip}\">#{t.strip}</a>" }.join(', ')
-		return html.html_safe if html.respond_to?(:html_safe)
-	end
-	
-	def save_tags
-		if @tags
-			# Remove old tags
-			self.blog_tags.delete_all
-		
-			# Save new tags
-			@tags.split(/,/).each do |tag|
-				self.blog_tags.build(:tag => tag.strip.downcase)
-			end
-		end
-	end
-	
 	def not_resaving?
 		!@resaving
 	end
