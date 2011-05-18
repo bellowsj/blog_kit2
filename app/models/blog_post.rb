@@ -95,6 +95,6 @@ class BlogPost < ActiveRecord::Base
 	
 	# Provide SEO Friendly URL's
 	def to_param
-    "#{id}-#{title.gsub(/[^a-z0-9]+/i, '-')}"
-  end
+          "#{id}-#{title.gsub(/[^a-z0-9]+/i, '-')}"
+        end
 end

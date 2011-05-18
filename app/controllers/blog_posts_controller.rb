@@ -58,6 +58,8 @@ class BlogPostsController < ApplicationController
     @blog_post = BlogPost.new(params[:blog_post])
 		@blog_post.user_id = current_user.id
 
+    @blog_post.published_at = Time.now if @blog_post.published > 0 && @blog_post.published_at.nil?
+
     respond_to do |format|
       if @blog_post.save
         flash[:notice] = 'BlogPost was successfully created.'
@@ -74,6 +76,7 @@ class BlogPostsController < ApplicationController
     @blog_post = BlogPost.find(params[:id])
 
     respond_to do |format|
+      @blog_post.published_at = Time.now if @blog_post.published > 0 && @blog_post.published_at.nil?
       if @blog_post.update_attributes(params[:blog_post])
         flash[:notice] = 'BlogPost was successfully updated.'
         format.html { redirect_to(@blog_post) }

@@ -61,8 +61,9 @@ function insertImage(image_id) {
 			</p>
 			<p>
 				<%= f.label :published, 'Status' %><br />
-				<%= f.radio_button :published, false %><%= f.label :published_false, 'Draft' %>
-				<%= f.radio_button :published, true %><%= f.label :published_true, 'Publish' %>
+				<%= f.radio_button :published,0 %><%= f.label :published_false, 'Draft' %>
+				<%= f.radio_button :published, 1 %><%= f.label :published_post, 'Post' %>
+				<%= f.radio_button :published, 2 %><%= f.label :published_page, 'Page' %>
 			</p>
 			<p>
 				<%= f.submit 'Save' %> or <%= link_to 'Back', blog_posts_path %>
