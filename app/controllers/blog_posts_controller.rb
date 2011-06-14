@@ -9,15 +9,15 @@ class BlogPostsController < ApplicationController
 	before_filter :require_admin, :except => [:index, :show]
 	before_filter :setup_image_template, :only => [:new, :edit, :create, :update]
 
-	
   def index
     @blog_posts = BlogPost.published.paginate(:page => params[:page], :per_page => 5)
     @index_title = BlogKit.instance.settings['blog_name'] || 'Blog'
+    @ads = false
 
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @blog_posts }
-      format.atom
+      format.atom 
     end
   end
 
@@ -34,7 +34,7 @@ class BlogPostsController < ApplicationController
     @blog_post = BlogPost.find(params[:id])
     @blog_comment = @blog_post.blog_comments.new
     @blog_comments = @blog_post.blog_comments.paginate(:page => params[:page], :order => 'created_at DESC')
-
+    @ads = true
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @blog_post }

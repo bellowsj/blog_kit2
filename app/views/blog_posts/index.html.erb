@@ -21,8 +21,7 @@
 <% end %>
 
 <div class="blogPages">
-	<%= #will_paginate @blog_posts 
-%>
+  <%= will_paginate @blog_posts %>
 </div>
 
 <%= render :partial => 'blog_posts/admin_links' %>
