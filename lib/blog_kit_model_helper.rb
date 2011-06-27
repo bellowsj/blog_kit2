@@ -1,5 +1,6 @@
 require 'rubygems'
 begin
+    require 'maruku'
 	require 'bluecloth'
 rescue Exception => e
 	require 'erb'
@@ -36,7 +37,8 @@ module BlogKitModelHelper
 				end
       else
 				if defined?(BlueCloth)
-	        BlueCloth.new(piece, markdown_options).to_html
+	                #BlueCloth.new(piece, markdown_options).to_html
+                    Maruku.new(piece).to_html
 				else
 					ERB::Util.html_escape(piece)
 				end

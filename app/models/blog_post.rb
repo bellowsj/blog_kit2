@@ -1,14 +1,16 @@
 
 class BlogPost < ActiveRecord::Base
 	include BlogKitModelHelper
-	
+	include ActionView::Helpers::TextHelper
+
 	unloadable
 	
 	belongs_to :user
 	
 	has_many :blog_comments, :dependent => :destroy
 	has_many :blog_images, :dependent => :destroy
-	
+    has_many :blog_contents
+
 	accepts_nested_attributes_for :blog_images, :allow_destroy => true
 	
 	
@@ -74,7 +76,7 @@ class BlogPost < ActiveRecord::Base
 		end
 	end
 
-	def parsed_body
+	def parsed_body(length=0)
 		image_parsed_body = self.body.gsub(/[{]blog_image[:]([0-9]+)[:]([a-zA-Z]+)[}]/) do |str|
 			puts "IMAGE ID: #{$1.to_i}"
 			img = BlogImage.find_by_id($1.to_i)
@@ -85,8 +87,10 @@ class BlogPost < ActiveRecord::Base
 				''
 			end
 		end
-		
-		return code_highlight_and_markdown(image_parsed_body)
+		if length > 0
+          image_parsed_body =  truncate(image_parsed_body, :length => length, :separator => ' ')
+        end
+        return code_highlight_and_markdown(image_parsed_body)
 	end
 	
 	def formatted_updated_at

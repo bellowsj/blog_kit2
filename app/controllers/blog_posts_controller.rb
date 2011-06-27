@@ -75,6 +75,12 @@ class BlogPostsController < ApplicationController
   def update
     @blog_post = BlogPost.find(params[:id])
 
+    blog_log = BlogContent.create()
+    blog_log.title = @blog_post.title
+    blog_log.content = @blog_post.body
+    blog_log.blog_post_id = params[:id]
+    blog_log.save
+
     respond_to do |format|
       @blog_post.published_at = Time.now if @blog_post.published > 0 && @blog_post.published_at.nil?
       if @blog_post.update_attributes(params[:blog_post])
@@ -89,7 +95,7 @@ class BlogPostsController < ApplicationController
   end
 
   def destroy
-    @blog_post = BlogPost.find(params[:id])
+  @blog_post = BlogPost.find(params[:id])
     #@blog_post.destroy
 
 		flash[:notice] = 'The blog post has been deleted'

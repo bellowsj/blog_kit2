@@ -20,13 +20,13 @@
 	</p>
 
 	<div class="blogPostBody">
-		<%= blog_post.parsed_body %>
+      <%= truncate(blog_post.parsed_body, :length => 15) %>
 	</div>
 
 	<hr class="blogPostBreak" />
         <p class="blogPostTags">
           <b>Tags: </b>
-	<% blog_post.tag_list.each do |tag| %>
+	    <% blog_post.tag_list.each do |tag| %>
 		<%= link_to tag, tag_url(tag) %> 
 	<% end %>
 	</p>

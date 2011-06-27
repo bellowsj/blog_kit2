@@ -2,9 +2,9 @@
 	<div class="blogUserImage">
 		<%= comment.user_image_tag %>
 	</div>
-	
+      
 	<p class="blogCommentPostedAt">
-		By <span class="blogPoster"><%= comment.user_name %></span>
+    By <span class="blogPoster"><%= display_name(comment.user_name, comment.site_url) %></span>
 		on 
 		<span class="blogPostDate"><%= comment.formatted_created_at%></span>
 	</p>
