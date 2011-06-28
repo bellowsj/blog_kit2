@@ -7,6 +7,7 @@ class BlogComment < ActiveRecord::Base
 	belongs_to :blog_article
 	
 	validates_presence_of :body
+    validates :site_url, :url => true
 
 	before_save :check_for_spam
 	
@@ -35,6 +36,10 @@ class BlogComment < ActiveRecord::Base
 			return name
 		end
 	end
+
+    def site
+      self.site_url.blank? ? "dfddf" : self.site_url
+    end
 	
 	# Used to set more tracking for akismet
 	def request=(request)
