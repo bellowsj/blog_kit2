@@ -38,7 +38,7 @@ class BlogComment < ActiveRecord::Base
 	end
 
     def site
-      self.site_url.blank? ? "dfddf" : self.site_url
+      self.site_url.blank? ? "" : self.site_url
     end
 	
 	# Used to set more tracking for akismet
