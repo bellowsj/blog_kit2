@@ -32,6 +32,10 @@ class BlogPostsController < ApplicationController
 
   def show
     @blog_post = BlogPost.find(params[:id])
+    unless @blog_post.published == 1
+      require_admin
+      return
+    end
     @blog_comment = @blog_post.blog_comments.new
     @blog_comments = @blog_post.blog_comments.paginate(:page => params[:page], :order => 'created_at DESC')
     @ads = true
