@@ -61,7 +61,7 @@ class BlogPostsController < ApplicationController
     @blog_post = BlogPost.new(params[:blog_post])
 		@blog_post.user_id = current_user.id
 
-    @blog_post.published_at = Time.now if @blog_post.published > 0 && @blog_post.published_at.nil?
+    @blog_post.published_at = Time.now if params[:blot_post][:published] > 0 && @blog_post.published_at.nil?
 
     respond_to do |format|
       if @blog_post.save

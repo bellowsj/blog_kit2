@@ -26,9 +26,12 @@
 	<hr class="blogPostBreak" />
         <p class="blogPostTags">
           <b>Tags: </b>
-	    <% blog_post.tag_list.each do |tag| %>
-		<%= link_to tag, tag_url(tag) %> 
-	<% end %>
+        <% blog_post.tag_list.each do |tag| %>
+          <%= link_to tag, tag_url(tag) %>
+          <% if tag != blog_post.tag_list.last %>
+            ,
+          <% end %>
+        <% end %>
 	</p>
 	
 	<p class="blogFooter">
