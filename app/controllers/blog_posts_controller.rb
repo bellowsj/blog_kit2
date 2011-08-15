@@ -60,8 +60,8 @@ class BlogPostsController < ApplicationController
   def create
     @blog_post = BlogPost.new(params[:blog_post])
 		@blog_post.user_id = current_user.id
-
-    @blog_post.published_at = Time.now if params[:blot_post][:published] > 0 && @blog_post.published_at.nil?
+    logger.debug "value: #{params[:blog_post][:published]}"
+    @blog_post.published_at = Time.now if params[:blog_post][:published].to_i > 0 && @blog_post.published_at.nil?
 
     respond_to do |format|
       if @blog_post.save
@@ -85,7 +85,7 @@ class BlogPostsController < ApplicationController
     blog_log.save
 
     respond_to do |format|
-      @blog_post.published_at = Time.now if @blog_post.published > 0 && @blog_post.published_at.nil?
+      @blog_post.published_at = Time.now if params[:blog_post][:published].to_i > 0 && @blog_post.published_at.nil?
       if @blog_post.update_attributes(params[:blog_post])
         flash[:notice] = 'BlogPost was successfully updated.'
         format.html { redirect_to(@blog_post) }
