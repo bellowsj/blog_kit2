@@ -1,58 +1,65 @@
+<% if params[:action] == 'show' %>
+  <% content_for :head do %><%= carnonical_link(blog_post) %><% end %>
+<% end %>
 <div class="blogPost">
-	<div class="blogUserImage">
-		<%= blog_post.user_image_tag %>
-	</div>
+  <% if @ads %>
+    <%= text_ad(blog_post.created_at) %>
+  <% end %>
+  <div class="blogUserImage">
+    <%= blog_post.user_image_tag %>
+  </div>
 
-	<h1 class="blogPostTitle">
-		<%= link_to(h(blog_post.title), blog_post) %>
-		<% if !blog_post.published? %>
-			[Draft]
-		<% end %>
-	</h1>
+  <h1 class="blogPostTitle header">
+    <%= link_to(h(blog_post.title), blog_post) %>
+    <% if !blog_post.published? %>
+      [Draft]
+    <% end %>
+  </h1>
 
-	<p class="blogPostPostedAt">
-		Posted
-		<% if blog_post.show_user? %>
-			By <span class="blogPoster"><%= blog_post.user_name %></span>
-		<% end %>
-		on 
-		<span class="blogPostDate"><%= blog_post.formatted_updated_at %></span>
-	</p>
+  <div class="blogPostBody">
+    <% if defined?(show_comments) %>
+      <%= blog_post.parsed_body %>
+    <% else %>
+      <%= blog_post.parsed_body(1000) %>
+    <% end %>
+  </div>
 
-	<div class="blogPostBody">
-      <%= truncate(blog_post.parsed_body, :length => 15) %>
-	</div>
+  <% if params[:action] == 'show' %>
+  <p class="blogPostPostedAt">
+  <% if blog_post.show_user? %>
+    By <span class="blogPoster"><a rel="author" style="color: red" href="http://who.is.bottiger.org"><%= blog_post.user_name %></a></span>
+  <% end %>
+  if you liked it, hit the +1 like a man!&nbsp;
+  <g:plusone></g:plusone>
+  </p>
+  <% end %>
 
-	<hr class="blogPostBreak" />
-        <p class="blogPostTags">
-          <b>Tags: </b>
-        <% blog_post.tag_list.each do |tag| %>
-          <%= link_to tag, tag_url(tag) %>
-          <% if tag != blog_post.tag_list.last %>
-            ,
-          <% end %>
-        <% end %>
-	</p>
-	
-	<p class="blogFooter">
-		<ul class="blogList">
-			<li class="blogListFirst"><%= link_to(pluralize(blog_post.blog_comments.count, 'comment'), blog_post_path(blog_post), :class => 'blogCommentCount') %></li>
-			<% if params[:action] == 'show' %>
-				<li><%= link_to('Back', blog_posts_path) %></li>
-			<% end %>
-		
-		
-			<% if current_user && current_user.admin? %>
-				<li><%= link_to('Edit Post', edit_blog_post_path(blog_post))%></li>
-				<li><%= link_to('Delete', blog_post_path(blog_post), :method => :delete, :confirm => "Are you sure you want to destroy the post: #{blog_post.title}") %></li>
-			<% end %>
-		</ul>
-	</p>
-	
-	<% if defined?(show_comments) %>
-		<%= render :partial => 'blog_comments/new_blog_comment', :locals => {:blog_comment => @blog_comment} %>
-		<%= render :partial => 'blog_posts/comments' %>
-	<% end %>
-	
-	<br style="clear: both;" />
+  <p class="blogPostTags">
+  <b>Tags: </b>
+  <% blog_post.tag_list.each do |tag| %>
+    <%= link_to tag, tag_url(tag) %><% if tag != blog_post.tag_list.last %>, <% end %>
+  <% end %>
+  </p>
+
+  <p class="blogFooter">
+  <ul class="blogList">
+    <li class="blogListFirst"><%= link_to(pluralize(blog_post.blog_comments.count, 'comment'), blog_post_path(blog_post), :class => 'blogCommentCount') %></li>
+    <% if params[:action] == 'show' %>
+      <li><%= link_to('Back', blog_posts_path) %></li>
+    <% end %>
+
+
+    <% if current_user && current_user.admin? %>
+      <li><%= link_to('Edit Post', edit_blog_post_path(blog_post))%></li>
+      <li><%= link_to('Delete', blog_post_path(blog_post), :method => :delete, :confirm => "Are you sure you want to destroy the post: #{blog_post.title}") %></li>
+    <% end %>
+  </ul>
+  </p>
+
+  <% if defined?(show_comments) %>
+    <%= render :partial => 'blog_comments/new_blog_comment', :locals => {:blog_comment => @blog_comment} %>
+    <%= render :partial => 'blog_posts/comments' %>
+  <% end %>
+
+  <br style="clear: both;" />
 </div>
