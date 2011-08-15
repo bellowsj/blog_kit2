@@ -3,16 +3,17 @@ BlogKitty
 
 BlogKitty is a fork of the rails plugin BlogKit (https://github.com/ryanstout/blog_kit)
 
-Currently BlogKitty only contains refactored code which is easier to modify and maintain.
+This was done because BlogKit while being a very attractive project for people who quickly wants to set up a functional blog
+lacked some features and had some security vurnabilities which has not been adressed yet.
 
 
-Blog Kit
+Blog Kitty
 ========
 
-BlogKit is a rails plugin to add a blog to your app.  The goal is to provide common blog
+BlogKitty is a rails plugin to add a blog to your application.  The goal is to provide common blog
 functionality that integrates into your existing app while keeping things simple.
 
-BlogKit has the following features.
+BlogKitty has the following features.
 
 + Admin for Blog Articles
 + Search engine friendly urls
