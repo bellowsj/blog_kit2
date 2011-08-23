@@ -5,6 +5,7 @@ class BlogPostsController < ApplicationController
 	
 	layout :choose_layout
 	
+    before_filter :require_full_url, :only => [:show]
 	before_filter :require_user, :except => [:index, :show]
 	before_filter :require_admin, :except => [:index, :show]
 	before_filter :setup_image_template, :only => [:new, :edit, :create, :update]
@@ -32,6 +33,7 @@ class BlogPostsController < ApplicationController
 
   def show
     @blog_post = BlogPost.find(params[:id])
+    
     unless @blog_post.published == 1
       return unless require_admin
     end
@@ -110,6 +112,15 @@ class BlogPostsController < ApplicationController
   end
 
 	private
+        def require_full_url
+          if params[:id].to_i.to_s == params[:id]
+            redirect_to BlogPost.find(params[:id]), :status => 301
+            return true
+          end
+
+          return false
+        end
+
 		def require_admin
 			if !current_user || !current_user.admin?
 				flash[:notice] = 'You must be an admin to view this page'

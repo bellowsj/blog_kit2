@@ -8,8 +8,8 @@ module BlogHelper
     end
   end
 
-  #def carnonical_link(post)
-  #  "<link rel=\"canonical\" href=\"http://bottiger.org".html_safe + url_for(post) + "\"/>".html_safe
-  #end
+  def carnonical_link(post)
+    "<link rel=\"canonical\" href=\"http://bottiger.org/wrote/".html_safe + post.id.to_s + "\" />".html_safe
+  end
 
 end
