@@ -6,6 +6,10 @@
 #auto_discovery_link_tag :atom, blog_posts_path(:format => :atom) 
 %>
 
+<% if @blog_posts.size != 0 -%>
+  <%= render :partial => 'shared/index_top' %>
+<% end %>
+
 <%= render :partial => 'blog_posts/admin_links' %>
 
 <% if @blog_posts.size == 0 && !params[:page] %>
