@@ -7,7 +7,7 @@ class BlogComment < ActiveRecord::Base
 	belongs_to :blog_article
 	
 	validates_presence_of :body
-    validates :site_url, :url => true
+    validates :site_url, :url => true, :if => Proc.new{ |comment| !comment.site.blank? }
 
 	before_save :check_for_spam
 	

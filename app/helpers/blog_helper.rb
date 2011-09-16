@@ -2,7 +2,7 @@ module BlogHelper
 
   def display_name(name, site)
     if !site.blank?
-      return link_to(name, site)
+      return link_to(name, site, :rel => 'nofollow')
     else
       return name
     end
