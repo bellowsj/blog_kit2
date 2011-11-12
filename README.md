@@ -1,13 +1,12 @@
-BlogKitty
+Blog_Kit2 by Jason Bellows
 =======
 
-BlogKitty is a fork of the rails plugin BlogKit (https://github.com/ryanstout/blog_kit)
+Blog_Kit2 is based on the a fork of the rails plugin BlogKit (https://github.com/bottiger/blog_kit which is based on this plugin https://github.com/ryanstout/blog_kit)
 
-This was done because BlogKit while being a very attractive project for people who quickly wants to set up a functional blog
-lacked some features and had some security vurnabilities which has not been adressed yet.
+This was done because while bottiger's version is much more secure and better than ryanstout's version, the documentation is still terrible. It took me forever to try to figure out how to install and use it. So I'm forking his project and creating a new one with better (hopefully great) documentation.
 
 
-Blog Kitty
+Blog_Kit
 ========
 
 BlogKitty is a rails plugin to add a blog to your application.  The goal is to provide common blog
@@ -32,12 +31,30 @@ BlogKitty has the following features.
     + S3 Image support
 
 
-Coming Soon:
+Install for Rails2
+==================
 
-+ Follow comments (via e-mail)
+This plugin is not designed or tested for Rails2, please use Rails3 instead.
+
 
 Install for Rails3
 ==================
+
+blog_kit2 requires that you install 2 other gems first.
+
+You will need the following gems: 
+will_paginate
+acts-as-taggable-on
+
+To do this, add these 2 lines to your Gemfile: 
+gem 'will_paginate'
+gem 'acts-as-taggable-on'
+
+and then run bundle install.
+
+After you install acts-as-taggable-on you will need to run the migration. 
+rails generate acts_as_taggable_on:migration
+
 
 in rails:
 
