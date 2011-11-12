@@ -53,12 +53,13 @@ gem 'acts-as-taggable-on'
 and then run bundle install.
 
 After you install acts-as-taggable-on you will need to run the migration. 
-rails generate acts_as_taggable_on:migration
+	rails generate acts_as_taggable_on:migration
 
+	rake db:migrate
 
-in rails:
+Now install the web_kit2 plugin
 
-    rails plugin install git://github.com/bottiger/blog_kit.git -r rails3
+    rails plugin install git://github.com/bellowsj/blog_kit2.git
 
 The plugin will then copy in migrations for the BlogPost and BlogComment models.  Install the tables with:
 

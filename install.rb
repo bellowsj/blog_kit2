@@ -16,7 +16,7 @@ begin
 
 	begin
 		# Run the generator
-		Rails::Generators.invoke('blog_assets')
+		generate "blog_assets"
 
 	rescue Exception => e
 		puts "The following error ocurred: " + e.inspect
